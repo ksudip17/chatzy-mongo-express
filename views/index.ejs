@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatzy - All chats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-indigo-700">All Chats</h2>
+            <form action="/chats/new" method="GET">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    + New chat
+                </button>
+            </form>
+        </div>
+
+        <% for (let chat of chats) { %>
+            <div class="chat bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="text-gray-600"><span class="font-semibold">From:</span> <i class="text-indigo-600"><%= chat.from %></i></p>
+                    <div class="text-sm text-gray-500">
+                        <p><%= chat.created_at.toString().split(" ")[4] %></p>
+                        <p><%= chat.created_at.toString().split(" ").slice(1,4).join("-") %></p>
+                    </div>
+                </div>
+                
+                <div class="message mb-4 p-4 bg-gray-50 rounded">
+                    <p class="text-gray-800"><span class="font-semibold">Message:</span> <%= chat.message %></p>
+                </div>
+                
+                <div class="flex space-x-2 mb-4">
+                    <form action="/chats/<%= chat.id %>/edit" method="GET">
+                        <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-3 rounded text-sm">
+                            Edit
+                        </button>
+                    </form>
+                    <form action="/chats/<%= chat.id %>?_method=DELETE" method="POST">
+                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded text-sm">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+                
+                <p class="text-gray-600"><span class="font-semibold">Received By:</span> <i class="text-indigo-600"><%= chat.to %></i></p>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>
